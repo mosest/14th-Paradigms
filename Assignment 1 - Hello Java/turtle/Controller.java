@@ -10,6 +10,7 @@ class Controller implements MouseListener
 	}
 
 	public void mousePressed(MouseEvent e) {
+		System.out.println("pls dont unzip me i have kids");
 		this.model.setDestination(e.getX(), e.getY());
 	}
 

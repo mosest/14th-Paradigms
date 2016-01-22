@@ -11,12 +11,12 @@ public class Game extends JFrame implements ActionListener {
 		Controller controller = new Controller(this.model);
 		View view = new View(this.model);
 		view.addMouseListener(controller);
-		this.setTitle("Turtle Attack!");
-		this.setSize(500, 500);
+		this.setTitle("<3 Turtle Tag <3");
+		this.setSize(690, 420);
 		this.getContentPane().add(view);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
-		new Timer(50, this).start(); // Indirectly calls actionPerformed at regular intervals
+		new Timer(33, this).start(); // Indirectly calls actionPerformed at regular intervals
 	}
 
 	public void actionPerformed(ActionEvent evt) {
