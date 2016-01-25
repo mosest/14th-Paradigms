@@ -15,10 +15,10 @@ class View extends JPanel {
 
 	public void paintComponent(Graphics g) {
 		// Draw the bird
-		g.drawImage(this.model.pigeon.bird_image, this.model.pigeon.bird_x, this.model.pigeon.bird_y, null);
+		g.drawImage(this.model.pigeon.image, this.model.pigeon.x, this.model.pigeon.y, null);
 		
 		// Draw the tubes
-		if (model.green_tube.facing_up) g.drawImage(this.model.green_tube.tube_image, this.model.green_tube.tube_x, this.model.green_tube.tube_y, null);
-		else g.drawImage(this.model.green_tube.tube_image, this.model.green_tube.tube_x, this.model.green_tube.tube_y - 400, null);
+		if (model.green_tube.facing_up) g.drawImage(this.model.green_tube.image, this.model.green_tube.x, this.model.green_tube.y, null);
+		else g.drawImage(this.model.green_tube.image, this.model.green_tube.x, this.model.green_tube.y - 400, null);
 	}
 }
