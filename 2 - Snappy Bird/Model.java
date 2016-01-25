@@ -6,8 +6,11 @@ class Model
 	int turtle_x;
 	int turtle_y;
 	int turtle_speed = 5;
+	Bird pigeon;
 
 	Model() {
+		Bird b = new Bird();
+		pigeon = b;
 	}
 
 	public void update() {
