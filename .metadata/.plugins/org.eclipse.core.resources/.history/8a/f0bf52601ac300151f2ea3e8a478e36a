@@ -1,6 +1,5 @@
 import javax.swing.JFrame;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.Timer;
 
@@ -20,12 +19,8 @@ public class Game extends JFrame implements ActionListener {
 		new Timer(33, this).start(); // Indirectly calls actionPerformed at regular intervals
 	}
 
-	public void actionPerformed(ActionEvent evt) {
-		try {
-			this.model.update();
-		} catch (IOException e) {
-			System.out.println("at Game.java -> actionPerformed, IOException");
-		}
+	public void actionPerformed(ActionEvent evt) throws IOException {
+		this.model.update();
 		repaint(); // Indirectly calls View.paintComponent
 	}
 

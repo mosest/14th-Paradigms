@@ -1,0 +1,18 @@
+
+class Model
+{
+	Bird pigeon;
+
+	Model() throws IOException {
+		Bird b = new Bird();
+		pigeon = b;
+	}
+
+	public void update() {
+		pigeon.update();
+	}
+	
+	public void onClick() {
+		pigeon.flap();
+	}
+}

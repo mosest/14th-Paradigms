@@ -1,6 +1,5 @@
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
@@ -15,11 +14,7 @@ class Controller implements MouseListener
 	}
 
 	public void mousePressed(MouseEvent e) {
-		try {
-			model.onClick();
-		} catch (IOException e1) {
-			System.out.println("at Controller.java -> mousePressed, IOException");
-		}
+		model.onClick();
 	}
 
 	public void mouseReleased(MouseEvent e) {    }

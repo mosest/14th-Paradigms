@@ -5,12 +5,10 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 class Bird {
-	// Coordinates and speed
+	// Member variables
 	int bird_y;	
 	int bird_x;
 	double velocity_y;
-	
-	// Image stuff (wingup + wingdown)
 	Image bird_image;
 	int frame_count = 0;
 	boolean just_jumped = false;
@@ -29,12 +27,9 @@ class Bird {
 		
 		// If bird just tried to jump, start counting frames
 		if (just_jumped) frame_count++;
-		
-		// Change bird image to wingdown after 4 frames
-		if (frame_count == 4) {
+		if (frame_count == 30) {
 			bird_image = ImageIO.read(new File("bird-wingdown.png"));
 			frame_count = 0;
-			just_jumped = false;
 		}
 	}
 	
@@ -45,5 +40,9 @@ class Bird {
 		// Change bird image to look like it's flapping
 		bird_image = ImageIO.read(new File("bird-wingup.png"));
 		just_jumped = true;
+		
+		
+		
+		just_jumped = false;
 	}
 }

@@ -9,7 +9,7 @@ class Model
 		this.pigeon = b;
 	}
 
-	public void update() throws IOException {
+	public void update() {
 		pigeon.update();
 	}
 	

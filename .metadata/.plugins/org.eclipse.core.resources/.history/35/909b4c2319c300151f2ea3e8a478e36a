@@ -6,14 +6,14 @@ class Model
 
 	Model() throws IOException {
 		Bird b = new Bird();
-		this.pigeon = b;
+		pigeon = b;
 	}
 
-	public void update() throws IOException {
+	public void update() {
 		pigeon.update();
 	}
 	
-	public void onClick() throws IOException {
+	public void onClick() {
 		pigeon.flap();
 	}
 }
