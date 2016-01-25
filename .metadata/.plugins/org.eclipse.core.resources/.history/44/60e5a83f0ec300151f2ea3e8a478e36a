@@ -1,12 +1,13 @@
-class Bird {
+
+class Model
+{
 	int dest_x;
 	int dest_y;
-	int bird_x;
-	int bird_y;
-	int bird_velocity = 5;
-	
-	Bird() {
-		
+	Bird pigeon;
+
+	Model() {
+		Bird b = new Bird();
+		pigeon = b;
 	}
 
 	public void update() {

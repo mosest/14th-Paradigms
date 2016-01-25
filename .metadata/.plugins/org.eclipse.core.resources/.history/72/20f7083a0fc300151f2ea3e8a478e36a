@@ -1,6 +1,8 @@
 
 class Model
 {
+	int dest_x;
+	int dest_y;
 	Bird pigeon;
 
 	Model() {
@@ -13,6 +15,7 @@ class Model
 	}
 
 	public void setDestination(int x, int y) {
-		pigeon.setDestination(x, y);
+		this.dest_x = x;
+		this.dest_y = y;
 	}
 }

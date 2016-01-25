@@ -18,6 +18,6 @@ class View extends JPanel {
 	public void paintComponent(Graphics g) {
 
 		// Draw the bird
-		g.drawImage(this.bird_image, this.model.pigeon.bird_x, this.model.pigeon.bird_y, null);
+		g.drawImage(this.bird_image, this.model.bird_x, this.model.bird_y, null);
 	}
 }

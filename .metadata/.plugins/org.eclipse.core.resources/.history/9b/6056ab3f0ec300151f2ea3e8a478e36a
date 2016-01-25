@@ -1,0 +1,9 @@
+class Bird {
+	int bird_x;
+	int bird_y;
+	int bird_velocity = 5;
+	
+	Bird() {
+		
+	}
+}

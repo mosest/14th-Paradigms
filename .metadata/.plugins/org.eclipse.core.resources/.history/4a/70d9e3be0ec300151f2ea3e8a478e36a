@@ -1,6 +1,4 @@
 class Bird {
-	int dest_x;
-	int dest_y;
 	int bird_x;
 	int bird_y;
 	int bird_velocity = 5;
@@ -24,8 +22,4 @@ class Bird {
 			this.bird_y -= Math.min(bird_velocity, bird_y - dest_y);
 	}
 
-	public void setDestination(int x, int y) {
-		this.dest_x = x;
-		this.dest_y = y;
-	}
 }

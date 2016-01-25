@@ -13,6 +13,7 @@ class Model
 	}
 
 	public void setDestination(int x, int y) {
-		pigeon.setDestination(x, y);
+		this.dest_x = x;
+		this.dest_y = y;
 	}
 }

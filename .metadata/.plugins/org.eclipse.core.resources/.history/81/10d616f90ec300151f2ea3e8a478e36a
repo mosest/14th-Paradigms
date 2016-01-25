@@ -11,8 +11,4 @@ class Model
 	public void update() {
 		pigeon.update();
 	}
-
-	public void setDestination(int x, int y) {
-		pigeon.setDestination(x, y);
-	}
 }
