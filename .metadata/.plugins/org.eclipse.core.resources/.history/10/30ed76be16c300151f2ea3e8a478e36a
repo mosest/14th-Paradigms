@@ -16,6 +16,6 @@ class Bird {
 	}
 	
 	public void flap() {
-		velocity_y = -25; // going towards the top of the window (jumping)
+		velocity_y = -50; // going towards the top of the window (jumping)
 	}
 }

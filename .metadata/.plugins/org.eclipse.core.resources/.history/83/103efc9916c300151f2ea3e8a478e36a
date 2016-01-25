@@ -5,8 +5,8 @@ class Bird {
 	double velocity_y;
 	
 	Bird() {
-		bird_x = 250; // middle of the screen
-		velocity_y = 10;
+		bird_x = 50;
+		velocity_y = 0;
 	}
 
 	public void update() {
@@ -16,6 +16,6 @@ class Bird {
 	}
 	
 	public void flap() {
-		velocity_y = -25; // going towards the top of the window (jumping)
+		velocity_y = -2; //going towards the top of the window (jumping)
 	}
 }
