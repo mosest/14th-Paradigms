@@ -13,7 +13,6 @@ class Model
 
 	public void update() throws IOException {
 		pigeon.update();
-		green_tube.update();
 	}
 	
 	public void onClick() throws IOException {
