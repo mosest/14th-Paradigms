@@ -16,8 +16,7 @@ class Bird extends Sprite {
 	int frame_count = 0;
 	boolean just_jumped = false;
 	
-	Bird(int x, int y) throws IOException {
-		super(x,y);
+	Bird() throws IOException {
 		this.width = 64;
 		this.height = 57;
 		this.x = 250 - (width / 2); // middle of the screen

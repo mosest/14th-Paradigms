@@ -6,6 +6,8 @@ import javax.imageio.ImageIO;
 
 class Tube extends Sprite {
 	// Coordinates
+	int x;
+	int y;
 	int v_x;
 	int width;
 	
@@ -15,7 +17,8 @@ class Tube extends Sprite {
 	boolean is_dead;
 	
 	Tube(int x, int y, int random1) throws IOException {
-		super(x,y);
+		this.x = x;
+		this.y = y;
 		this.v_x = 3;
 		this.width = 44;
 		this.facing_up = true;
