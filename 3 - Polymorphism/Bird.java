@@ -1,4 +1,6 @@
+import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -15,8 +17,10 @@ class Bird extends Sprite {
 	Image image;
 	int frame_count = 0;
 	boolean just_jumped = false;
+	Image bird_wingdown;
+	Image bird_wingup;
 	
-	Bird(int x, int y) throws IOException {
+	Bird(int x, int y) {
 		super(x,y);
 		this.width = 64;
 		this.height = 57;
@@ -24,10 +28,10 @@ class Bird extends Sprite {
 		this.v_y = 10;
 		this.jump_power = -15;
 
-		this.image = ImageIO.read(new File("bird-wingdown.png"));
+		this.image = bird_wingdown;
 	}
 
-	public void update() throws IOException {
+	public void update() {
 		// Simulate gravity (origin is in top-left of window!)
 		v_y += 0.8;
 		y += v_y;
@@ -35,20 +39,24 @@ class Bird extends Sprite {
 		// If bird just tried to jump, start counting frames
 		if (just_jumped) frame_count++;
 		
-		// Change bird image to wingdown after 4 frames
+		// After 4 frames, change bird image back
 		if (frame_count == 4) {
-			image = ImageIO.read(new File("bird-wingdown.png"));
 			frame_count = 0;
 			just_jumped = false;
+			image = bird_wingdown;
 		}
 	}
 	
-	public void flap() throws IOException {
+	public void draw(Graphics g) {
+		g.drawImage(image, x, y, null);
+	}
+	
+	public void flap() {
 		// Make bird jump up a little
 		v_y = jump_power; // jump_power < 0. going towards the top of the window
 		
 		// Change bird image to look like it's flapping
-		image = ImageIO.read(new File("bird-wingup.png"));
+		image = bird_wingup;
 		just_jumped = true;
 	}
 	

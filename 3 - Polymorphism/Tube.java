@@ -1,4 +1,6 @@
+import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -13,6 +15,8 @@ class Tube extends Sprite {
 	boolean facing_up;
 	Image image;
 	boolean is_dead;
+	Image tube_facingdown;
+	Image tube_facingup;
 	
 	Tube(int x, int y, int random1) throws IOException {
 		super(x,y);
@@ -26,8 +30,8 @@ class Tube extends Sprite {
 		else facing_up = false;
 		
 		// Reset the tube sprite if you need to
-		if (facing_up) this.image = ImageIO.read(new File("tubeup.png"));
-		else this.image = ImageIO.read(new File("tubedown.png"));	
+		if (facing_up) this.image = tube_facingup;
+		else this.image = tube_facingdown;	
 	}
 	
 	public void update() {
@@ -39,6 +43,11 @@ class Tube extends Sprite {
 		if (x < -44) { // tube sprite is 44 pixels wide
 			is_dead = true; 
 		}
+	}
+	
+	public void draw(Graphics g) {
+		if (facing_up) g.drawImage(image, x, y, null);
+		else g.drawImage(image, x, y - 400, null);
 	}
 	
 	public void gameOver() {

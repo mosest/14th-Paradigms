@@ -1,0 +1,19 @@
+class Sprite {
+	// Variables
+	int x;
+	int y;
+	
+	Sprite(int x, int y) {
+		// Initialize variables
+		this.x = x;
+		this.y = y;
+	}
+	
+	public void update() {
+		// Stuff
+	}
+	
+	public void draw() {
+		// More stuff
+	}
+}

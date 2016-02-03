@@ -19,7 +19,7 @@ class Model
 	boolean collision = false;
 
 	Model() throws IOException {
-		Bird b = new Bird(250,250);
+		Bird b = new Bird(300,100);
 		this.pigeon = b;
 		this.tube_list = new LinkedList<Tube>();
 		this.rng = new Random();
