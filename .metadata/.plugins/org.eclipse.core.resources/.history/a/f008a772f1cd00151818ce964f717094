@@ -18,8 +18,8 @@ class Bird extends Sprite {
 	Image image;
 	int frame_count = 0;
 	boolean just_jumped = false;
-	Image bird_wingdown = null;
-	Image bird_wingup = null;
+	Image bird_wingdown;
+	Image bird_wingup;
 	
 	// Other
 	LinkedList<Sprite> sprites; // for collision detection

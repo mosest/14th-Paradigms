@@ -14,8 +14,8 @@ class Tube extends Sprite {
 	// Image stuff
 	boolean facing_up;
 	Image image;
-	Image tube_facingdown = null;
-	Image tube_facingup = null;
+	Image tube_facingdown;
+	Image tube_facingup;
 	
 	Tube(int x, int y, int random1) throws IOException {
 		// Call super constructor
