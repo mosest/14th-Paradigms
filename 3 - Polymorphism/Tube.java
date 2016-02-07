@@ -14,22 +14,27 @@ class Tube extends Sprite {
 	// Image stuff
 	boolean facing_up;
 	Image image;
-	boolean is_dead;
 	Image tube_facingdown;
 	Image tube_facingup;
 	
 	Tube(int x, int y, int random1) throws IOException {
+		// Call super constructor
 		super(x,y);
+		
+		// Initialize variables!
 		this.v_x = 3;
 		this.width = 44;
 		this.facing_up = true;
-		this.is_dead = false;
+
+		// Initialize tube images
+		tube_facingdown = ImageIO.read(new File("tubedown.png"));
+		tube_facingup = ImageIO.read(new File("tubeup.png"));
 		
 		// Randomly decide whether the tube faces up or down
 		if (random1 == 0) facing_up = true;
 		else facing_up = false;
 		
-		// Reset the tube sprite if you need to
+		// Set tube image
 		if (facing_up) this.image = tube_facingup;
 		else this.image = tube_facingdown;	
 	}
@@ -50,10 +55,7 @@ class Tube extends Sprite {
 		else g.drawImage(image, x, y - 400, null);
 	}
 	
-	public void gameOver() {
-		x = -500;
-		y = -500;
-		
-		v_x = 0;
+	public void game_over() {
+		is_dead = true;
 	}
 }
