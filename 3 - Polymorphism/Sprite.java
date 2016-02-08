@@ -4,8 +4,6 @@ abstract class Sprite {
 	// Variables
 	int x;
 	int y;
-	String image_name1;
-	String image_name2;
 	boolean is_dead;
 	
 	Sprite(int x, int y) {

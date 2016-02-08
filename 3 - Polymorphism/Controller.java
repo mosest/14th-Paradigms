@@ -1,8 +1,5 @@
 import java.awt.event.MouseListener;
-import java.io.File;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import java.awt.event.MouseEvent;
 
@@ -15,10 +12,18 @@ class Controller implements MouseListener
 	}
 
 	public void mousePressed(MouseEvent e) {
-		try {
-			model.onClick();
-		} catch (IOException e1) {
-			System.out.println("at Controller.java -> mousePressed, IOException");
+		if (e.getButton() == MouseEvent.BUTTON1) {			// Left click!
+			try {
+				model.onClick();
+			} catch (IOException e1) {
+				System.out.println("at Controller.java -> mousePressed, IOException");
+			}
+		} else if (e.getButton() == MouseEvent.BUTTON3) { 	// Right click!
+			try {
+				model.onRightClick();
+			} catch (IOException e1) {
+				System.out.println("at Controller.java -> mousePressed, IOException");
+			}
 		}
 	}
 

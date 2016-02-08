@@ -1,6 +1,5 @@
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -40,6 +39,7 @@ class Bird extends Sprite {
 		bird_wingdown = ImageIO.read(new File("bird-wingdown.png"));
 		bird_wingup = ImageIO.read(new File("bird-wingup.png"));
 		
+		// Set bird image
 		this.image = bird_wingdown;
 	}
 
