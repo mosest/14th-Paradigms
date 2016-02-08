@@ -2,6 +2,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 
@@ -10,12 +11,16 @@ class Pie extends Sprite {
 	int v_x;
 	float v_y;
 	int height;
+	int width;
 	
 	// Image variables
 	Image image;
 	Image pie_slice = null;
 	
-	Pie(int x, int y) throws IOException {
+	// Other
+	LinkedList<Sprite> sprites; // for collision detection
+	
+	Pie(int x, int y, LinkedList<Sprite> s) throws IOException {
 		// Call super constructor
 		super(x,y);
 		
@@ -24,6 +29,8 @@ class Pie extends Sprite {
 		this.v_x = 12;
 		this.v_y = -12;
 		this.height = 28;
+		this.width = 40;
+		this.sprites = s;
 		
 		// Set pie image
 		image = pie_slice;
@@ -43,6 +50,30 @@ class Pie extends Sprite {
 		
 		// If pie hits bottom of screen, get rid of it
 		if (y > 500 + height) is_dead = true;
+				
+		// Collision detection
+		collision_detection();
+	}
+	
+	public void collision_detection() {
+		for (Sprite current_sprite : sprites) {
+			if (current_sprite.getClass().equals(Tube.class)) {
+				Tube current_tube = (Tube)current_sprite;
+				if (current_tube.facing_up) {
+					if (x + width > current_tube.x && 				// bird's right edge is to the right of the tube's left edge
+						x < current_tube.x + current_tube.width && 	// bird's left edge is to the left of the tube's right edge
+						y + height > current_tube.y) { 				// bird's bottom edge is below the tube's entrance
+							current_tube.is_retracting = true;
+						}
+				} else {
+					if (x + width > current_tube.x &&				// same as top
+						x < current_tube.x + current_tube.width &&	// same as top
+						y < current_tube.y) {						// bird's top edge is above the tube's entrance
+						current_tube.is_retracting = true;
+						}
+				}
+			}
+		}
 	}
 	
 	public void game_over() {

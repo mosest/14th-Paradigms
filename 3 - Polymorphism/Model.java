@@ -62,7 +62,7 @@ class Model
 	public void onRightClick() throws IOException {
 		if (!game_is_over) {
 			Bird current_bird = (Bird)sprite_list.get(0);
-			sprite_list.add(new Pie(current_bird.x, current_bird.y));
+			sprite_list.add(new Pie(current_bird.x, current_bird.y, sprite_list));
 		}
 	}
 	

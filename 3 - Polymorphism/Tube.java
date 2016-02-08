@@ -9,9 +9,11 @@ class Tube extends Sprite {
 	// Coordinates
 	int v_x;
 	int width;
+	int retraction_speed;
 	
 	// Image stuff
 	boolean facing_up;
+	boolean is_retracting;
 	Image image;
 	Image tube_facingdown = null;
 	Image tube_facingup = null;
@@ -24,6 +26,8 @@ class Tube extends Sprite {
 		this.v_x = 3;
 		this.width = 44;
 		this.facing_up = true;
+		this.is_retracting = false;
+		this.retraction_speed = 10;
 
 		// Initialize tube images
 		tube_facingdown = ImageIO.read(new File("tubedown.png"));
@@ -47,6 +51,15 @@ class Tube extends Sprite {
 		if (x < -44) { // tube sprite is 44 pixels wide
 			is_dead = true; 
 		}
+		
+		// Handle retracting
+		if (is_retracting) {
+			if (facing_up) y += retraction_speed;
+			else y -= retraction_speed;
+			
+		}
+		
+		if (y < 0 || y > 500) is_dead = true;
 	}
 	
 	public void draw(Graphics g) {
