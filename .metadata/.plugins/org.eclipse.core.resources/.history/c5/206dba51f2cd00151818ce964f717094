@@ -1,0 +1,6 @@
+class Pie extends Sprite {
+	
+	Pie() {
+		
+	}
+}

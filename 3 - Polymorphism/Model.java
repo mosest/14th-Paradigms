@@ -46,9 +46,14 @@ class Model
 		// (no sprite will update if game_is_over because
 		// the sprites will all be dead :D)
 		for (Sprite current_sprite : sprite_list) {
+			// Still update everything
+			current_sprite.update();	
+			
 			if(current_sprite.is_dead) {
-				if (sprite_list.remove(current_sprite)) break;	// Delete tubes that go off-screen
-			} else current_sprite.update();						// and update the others
+				if (!current_sprite.equals(sprite_list.get(0))) {	// EXCEPT FOR THE DEAD BIRD WHICH STAYS,
+					if (sprite_list.remove(current_sprite)) break;	// delete sprites that are dead
+				}
+			}
 		}
 	}
 	

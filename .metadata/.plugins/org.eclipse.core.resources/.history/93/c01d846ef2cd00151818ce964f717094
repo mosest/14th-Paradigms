@@ -1,0 +1,25 @@
+import java.awt.Graphics;
+import java.awt.Image;
+import java.io.File;
+
+import javax.imageio.ImageIO;
+
+class Pie extends Sprite {
+	Image image;
+	Image pie_slice = null;
+	
+	Pie(int x, int y) {
+		// Call super constructor
+		super(x,y);
+		
+		// Initialize things!
+		pie_slice = ImageIO.read(new File("pie.png"));
+		
+		// Set pie image
+		image = pie_slice;
+	}
+	
+	public void draw(Graphics g) {
+		g.drawImage(image, x, y, null);
+	}
+}

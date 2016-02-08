@@ -19,6 +19,7 @@ class Bird extends Sprite {
 	boolean just_jumped = false;
 	Image bird_wingdown = null;
 	Image bird_wingup = null;
+	Image bird_dead = null;
 	
 	// Other
 	LinkedList<Sprite> sprites; // for collision detection
@@ -38,6 +39,7 @@ class Bird extends Sprite {
 		// Initialize bird images
 		bird_wingdown = ImageIO.read(new File("bird-wingdown.png"));
 		bird_wingup = ImageIO.read(new File("bird-wingup.png"));
+		bird_dead = ImageIO.read(new File("bird-dead.png"));
 		
 		// Set bird image
 		this.image = bird_wingdown;
@@ -49,7 +51,10 @@ class Bird extends Sprite {
 		y += v_y;
 		
 		// Collision detection
-		if (collision_detection()) is_dead = true;
+		if (collision_detection()) {
+			image = bird_dead;
+			is_dead = true;
+		}
 		
 		// If bird just tried to jump, start counting frames
 		if (just_jumped) frame_count++;
@@ -59,6 +64,13 @@ class Bird extends Sprite {
 			frame_count = 0;
 			just_jumped = false;
 			image = bird_wingdown;
+		}
+		
+		// What happens when the bird explodes??
+		if (is_dead) {
+			x += 5;
+			if (y >= 500 - height) v_y = jump_power;
+			if (x >= 500 + width) System.exit(0); // close window if bird bounces/exits stage-left
 		}
 	}
 	
