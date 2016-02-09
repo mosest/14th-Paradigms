@@ -7,6 +7,13 @@ import java.util.LinkedList;
 import javax.imageio.ImageIO;
 
 class Bird extends Sprite {
+	// Actions
+	public enum Action {
+		DO_NOTHING, FLAP, FLAP_AND_THROW_PIE, THROW_PIE
+	}
+	
+	Action current_action;
+	
 	// Coordinates and speed
 	float jump_power;
 	
@@ -40,6 +47,9 @@ class Bird extends Sprite {
 		
 		// Set bird image
 		this.image = bird_wingdown;
+		
+		// Set current_action to do_nothing
+		this.current_action = Action.DO_NOTHING;
 	}
 
 	public void update() {
@@ -67,7 +77,7 @@ class Bird extends Sprite {
 		if (is_dead) {
 			x += 5;
 			if (y >= 500 - height) v_y = jump_power;
-			if (x >= 500 + width) System.exit(0); // close window if bird bounces/exits stage-left
+			if (x >= 500 + width) System.exit(0); // close window if bird exits stage-left
 		}
 	}
 	
