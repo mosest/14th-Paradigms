@@ -8,24 +8,27 @@ class Model
 	LinkedList<Sprite> sprite_list;
 	int add_tube_count = 0;
 	
+	// Player's bird
+	Bird pigeon;
+	
 	// Other
 	Random rng;
+	int recursion_cutoff;
+	int k;
 	boolean game_is_over; // Model should handle whether the actual game is over, right??
 
 	Model() throws IOException {
 		// Initialize sprite_list and the random num generator
 		this.sprite_list = new LinkedList<Sprite>();
 		this.rng = new Random();
+		this.recursion_cutoff = 50;
+		this.k = 5;
 		this.game_is_over = false;
 		
 		// Add a bird into the sprite list!
 		// It's the first thing added, so index 0
-		sprite_list.add(new Bird(300,100,sprite_list));
-		
-		sprite_list.add((Bird)sprite_list.get(0).clone());
-		
-		Bird second_bird = (Bird)sprite_list.get(1);
-		second_bird.image = second_bird.bird_dead;	
+		pigeon = new Bird(300,100,sprite_list);
+		sprite_list.add(pigeon);	
 	}
 
 	public void update() throws IOException {
@@ -44,7 +47,7 @@ class Model
 			}
 			
 			// If the bird is dead, game over
-			if (sprite_list.get(0).is_dead) game_is_over = true;
+			if (pigeon.is_dead) game_is_over = true;
 		}
 
 		// Whether game_over or not, bring out yer dead
@@ -55,7 +58,7 @@ class Model
 			current_sprite.update();	
 			
 			if(current_sprite.is_dead) {
-				if (!current_sprite.equals(sprite_list.get(0))) {	// EXCEPT FOR THE DEAD BIRD WHICH STAYS,
+				if (!current_sprite.equals(pigeon)) {				// EXCEPT FOR THE DEAD BIRD WHICH STAYS,
 					if (sprite_list.remove(current_sprite)) break;	// delete sprites that are dead
 				}
 			}
@@ -64,15 +67,13 @@ class Model
 	
 	public void onClick() throws IOException {
 		if (!game_is_over) {
-			Bird current_bird = (Bird)sprite_list.get(0);
-			current_bird.flap();
+			pigeon.flap();
 		}
 	}
 	
 	public void onRightClick() throws IOException {
 		if (!game_is_over) {
-			Bird current_bird = (Bird)sprite_list.get(0);
-			sprite_list.add(new Pie(current_bird.x, current_bird.y, sprite_list));
+			sprite_list.add(new Pie(pigeon.x, pigeon.y, sprite_list));
 		}
 	}
 	
@@ -84,5 +85,60 @@ class Model
 	public void game_over() {
 		System.out.println("Game over!");
 		for (Sprite current_sprite : sprite_list) current_sprite.game_over();
+	}
+	
+	public int evaluateAction(Bird.Action act, int depth) throws IOException {
+		// This function is recursive. I have to figure out how.
+		// Like, seriously, what the fuck. What is this thing even
+		// supposed to do. What.
+		
+		// Base case: 0 <= depth < recursion_case
+		if (depth == recursion_cutoff) {
+			if (pigeon.is_dead) return 0;
+			else return 500 - (Math.abs(pigeon.y - 250));			
+		} else {
+			try {
+				// Make a deep copy of Model
+				Model new_model;
+				new_model = new Model();
+				
+				// Perform act! PERFORM IT
+				switch(act) {
+					case DO_NOTHING:
+						break;
+						
+					case FLAP:
+						new_model.onClick();
+						break;
+						
+					case FLAP_AND_THROW_PIE:
+						new_model.onClick();
+						new_model.onRightClick();
+						break;
+						
+					case THROW_PIE:
+						new_model.onRightClick();
+						break;
+						
+					default:
+						break;
+				}
+				
+				// Update the model! :D (the new_model, i think)
+				new_model.update();
+			} catch (IOException e) {}
+			
+			// Now check if depth %  == 0
+			if (depth % k == 0) {
+				return evaluateAction(Bird.Action.DO_NOTHING, depth + 1);
+			} else {
+				int nothing 	= evaluateAction(Bird.Action.DO_NOTHING, depth + 1);
+				int flap 		= evaluateAction(Bird.Action.FLAP, depth + 1);
+				int flap_pie 	= evaluateAction(Bird.Action.FLAP_AND_THROW_PIE, depth + 1);
+				int pie 		= evaluateAction(Bird.Action.THROW_PIE, depth + 1);
+				
+				return Math.max(Math.max(nothing, flap), Math.max(flap_pie, pie));
+			}
+		}
 	}
 }
