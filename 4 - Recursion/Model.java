@@ -21,7 +21,7 @@ class Model
 		// Initialize sprite_list and the random num generator
 		this.sprite_list = new LinkedList<Sprite>();
 		this.rng = new Random();
-		this.recursion_cutoff = 50;
+		this.recursion_cutoff = 10;
 		this.k = 5;
 		this.game_is_over = false;
 		
@@ -87,12 +87,13 @@ class Model
 		for (Sprite current_sprite : sprite_list) current_sprite.game_over();
 	}
 	
-	public int evaluateAction(Bird.Action act, int depth) throws IOException {
-		// This function is recursive. I have to figure out how.
-		// Like, seriously, what the fuck. What is this thing even
-		// supposed to do. What.
+	public int evaluateAction(Bird.Action act, int depth) {
+		// What the fuck. What is this thing even supposed to do. What.
 		
-		// Base case: 0 <= depth < recursion_case
+		// Base case: basically if you get to a certain
+		// point without returning something, we do this:
+		
+		System.out.println("act = " + act);
 		if (depth == recursion_cutoff) {
 			if (pigeon.is_dead) return 0;
 			else return 500 - (Math.abs(pigeon.y - 250));			
@@ -103,42 +104,36 @@ class Model
 				new_model = new Model();
 				
 				// Perform act! PERFORM IT
-				switch(act) {
-					case DO_NOTHING:
-						break;
-						
-					case FLAP:
-						new_model.onClick();
-						break;
-						
-					case FLAP_AND_THROW_PIE:
-						new_model.onClick();
-						new_model.onRightClick();
-						break;
-						
-					case THROW_PIE:
-						new_model.onRightClick();
-						break;
-						
-					default:
-						break;
+				if (act == Bird.Action.FLAP) {
+					new_model.onClick();
+					System.out.println(new_model + ": we're flappin'");
+				} else if (act == Bird.Action.FLAP_AND_THROW_PIE) {
+					new_model.onClick();
+					new_model.onRightClick();
+					System.out.println(new_model + ": we're flappin and throwin'");
+				} else if (act == Bird.Action.THROW_PIE) {
+					new_model.onRightClick();
+					System.out.println(new_model + ": we're throwin'");
 				}
 				
 				// Update the model! :D (the new_model, i think)
 				new_model.update();
-			} catch (IOException e) {}
 			
-			// Now check if depth %  == 0
-			if (depth % k == 0) {
-				return evaluateAction(Bird.Action.DO_NOTHING, depth + 1);
-			} else {
-				int nothing 	= evaluateAction(Bird.Action.DO_NOTHING, depth + 1);
-				int flap 		= evaluateAction(Bird.Action.FLAP, depth + 1);
-				int flap_pie 	= evaluateAction(Bird.Action.FLAP_AND_THROW_PIE, depth + 1);
-				int pie 		= evaluateAction(Bird.Action.THROW_PIE, depth + 1);
-				
-				return Math.max(Math.max(nothing, flap), Math.max(flap_pie, pie));
-			}
+				// Now check if depth % k == 0
+				if (depth % k != 0) {
+					return evaluateAction(Bird.Action.DO_NOTHING, depth + 1);
+				} else {
+					int nothing 	= evaluateAction(Bird.Action.DO_NOTHING, depth + 1);
+					int flap 		= evaluateAction(Bird.Action.FLAP, depth + 1);
+					int flap_pie 	= evaluateAction(Bird.Action.FLAP_AND_THROW_PIE, depth + 1);
+					int pie 		= evaluateAction(Bird.Action.THROW_PIE, depth + 1);
+					
+					int big = Math.max(Math.max(nothing, flap), Math.max(flap_pie, pie));
+					System.out.println("recursion: " + nothing + " | " + flap + " | " + pie + " | " + flap_pie);
+					return big;
+				}
+			} catch (IOException e) {}
 		}
+		return -1;
 	}
 }

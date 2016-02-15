@@ -28,6 +28,7 @@
 		<item value="false" key="WizardFileSystemResourceImportPage1.STORE_CREATE_CONTAINER_STRUCTURE_ID"/>
 		<item value="false" key="WizardFileSystemResourceImportPage1.STORE_OVERWRITE_EXISTING_RESOURCES_ID"/>
 		<list key="WizardFileSystemResourceImportPage1.STORE_SOURCE_NAMES_ID">
+			<item value="C:\Users\Tara\Documents\GitHub\14th-Paradigms\3 - Polymorphism"/>
 			<item value="C:\Users\Tara\Documents\GitHub\14th-Paradigms\2 - Snappy Bird"/>
 		</list>
 	</section>

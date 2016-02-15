@@ -1,0 +1,38 @@
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.ImageObserver;
+
+abstract class Sprite {
+	// All sprites have a position!
+	int x;
+	int y;
+	
+	// All sprites have an image!
+	int width = 0;
+	int height = 0;
+	Image current_image;
+	
+	// All sprites are susceptible to death
+	boolean is_dead;
+	
+	Sprite(int x, int y, Image i) {
+		// Initialize coordinates
+		this.x = x;
+		this.y = y;
+		
+		// Initialize image, width, height	
+		this.current_image = i;
+		
+		is_dead = false; // All sprites start out not dead :D
+	}
+	
+	public abstract void update();
+	
+	public void resize_image(Image new_image) {
+		
+	}
+	
+	public abstract void draw(Graphics g);
+	
+	public abstract void game_over();
+}

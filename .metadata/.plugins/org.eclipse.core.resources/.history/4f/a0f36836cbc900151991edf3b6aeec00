@@ -1,9 +1,0 @@
-class Sprite {
-	// Variables
-	int x;
-	int y;
-	
-	Sprite(int x, int y) {
-		// Initialize variables
-	}
-}
