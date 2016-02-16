@@ -11,13 +11,14 @@ class Controller implements MouseListener
 		this.model = m;
 	}
 	
-	public void update() {
+	/*public void update() {
 		try {
 			// Calculate how good each move is
 			int nothing 	= model.evaluateAction(Bird.Action.DO_NOTHING, 0);
 			int flap 		= model.evaluateAction(Bird.Action.FLAP, 0);
 			int flap_pie 	= model.evaluateAction(Bird.Action.FLAP_AND_THROW_PIE, 0);
 			int pie 		= model.evaluateAction(Bird.Action.THROW_PIE, 0);
+			
 
 			// Find out which one is the best
 			int biggest = Math.max(Math.max(nothing, flap), Math.max(flap_pie, pie));
@@ -39,7 +40,7 @@ class Controller implements MouseListener
 				//System.out.println("flap_pie won!");
 			}
 		} catch (IOException e) {}
-	}
+	}*/
 
 	public void mousePressed(MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON1) {			// Left click!
