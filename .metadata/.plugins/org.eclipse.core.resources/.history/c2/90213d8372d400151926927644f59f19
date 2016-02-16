@@ -64,18 +64,7 @@ class Tube extends Sprite {
 	}
 	
 	public Tube clone() {
-		try {
-			// Create new tube
-			int up_or_down = (facing_up ? 0 : 1);
-			Tube new_tube = new Tube(x,y,up_or_down);
-			
-			// Set variables of new_tube to match this one!
-			new_tube.is_retracting = is_retracting;
-			new_tube.image = image;
-			
-			// Return!
-			return new_tube;
-		} catch (IOException e) {}
-		return null;
+		boolean up_or_down = (facing_up ? 0 : 1);
+		Tube new_tube = new Tube(x,y,up_or_down);
 	}
 }

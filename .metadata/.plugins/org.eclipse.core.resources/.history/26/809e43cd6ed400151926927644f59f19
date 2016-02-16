@@ -89,20 +89,10 @@ class Model
 	
 	public Model clone() {
 		try {
-			// Create a new Model object!
 			Model new_model = new Model();
 			
-			// Create new sprite list, fill it in with copies of all the old sprites
-			LinkedList<Sprite> new_sprites = new LinkedList<Sprite>();
-			for (Sprite s : sprite_list) {
-				Sprite new_sprite = (Sprite)s.clone();
-				new_sprites.add(new_sprite);
-			}
+			// do new_model stuff
 			
-			// Set new_model's variables to this one's
-			
-			
-			// Return new_model			
 			return new_model;
 		} catch (IOException e) {}
 		return null;

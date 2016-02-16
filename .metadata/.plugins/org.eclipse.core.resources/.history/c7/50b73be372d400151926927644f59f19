@@ -71,7 +71,6 @@ class Tube extends Sprite {
 			
 			// Set variables of new_tube to match this one!
 			new_tube.is_retracting = is_retracting;
-			new_tube.image = image;
 			
 			// Return!
 			return new_tube;
