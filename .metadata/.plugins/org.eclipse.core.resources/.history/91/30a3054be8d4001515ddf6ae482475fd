@@ -78,25 +78,6 @@ class Pie extends Sprite {
 	}
 	
 	public Object clone() {
-		Pie new_pie;
-		try {
-			// Create a brand new bird object! Shiny.
-			LinkedList<Sprite> new_sprites = new LinkedList<Sprite>();
-			new_pie = new Pie(x,y,new_sprites);
-			
-			// Set variables of new_bird to the ones of this bird!
-			new_pie.v_y = v_y;
-			new_pie.image = image;
-			
-			// In Model, new_sprites gets updated as new_model.sprite_list
-			// (which is a deep copy of model.sprite_list)
-			
-			// Return the new_pie
-			return new_pie;
-		} catch (IOException e) {}
-		
-		// If for some reason, an error happened
-		System.out.println("Error cloning pie! :(");
-		return null;
+		return pie_slice;
 	}
 }

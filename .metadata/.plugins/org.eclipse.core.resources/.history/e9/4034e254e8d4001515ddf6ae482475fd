@@ -90,13 +90,15 @@ class Pie extends Sprite {
 			
 			// In Model, new_sprites gets updated as new_model.sprite_list
 			// (which is a deep copy of model.sprite_list)
+			// (( I REALLY WISH I COULD PUT ALL OF THE BIRD'S
+			//    COPY STUFF INSIDE OF BIRD..... >:( ........ ))
 			
-			// Return the new_pie
-			return new_pie;
+			// Return the new_bird
+			return new_bird;
 		} catch (IOException e) {}
 		
 		// If for some reason, an error happened
-		System.out.println("Error cloning pie! :(");
+		System.out.println("Error cloning bird :(");
 		return null;
 	}
 }

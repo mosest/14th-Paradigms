@@ -78,6 +78,7 @@ class Model
 		if (!game_is_over) {
 			Pie new_pie = new Pie(pigeon.x, pigeon.y, sprite_list);
 			sprite_list.add(new_pie);
+			System.out.println("For " + this + ": Added " + new_pie);
 		}
 	}
 	

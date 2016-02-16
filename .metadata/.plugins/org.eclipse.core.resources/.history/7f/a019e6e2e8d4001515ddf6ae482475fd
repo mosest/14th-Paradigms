@@ -1,0 +1,67 @@
+import java.awt.event.MouseListener;
+import java.io.IOException;
+
+import java.awt.event.MouseEvent;
+
+class Controller implements MouseListener
+{
+	Model model;
+
+	Controller(Model m) {
+		this.model = m;
+		
+	}
+	
+	/*public void update() {
+		try {
+			// Calculate how good each move is
+			int nothing 	= model.evaluateAction(Bird.Action.DO_NOTHING, 0);
+			int flap 		= model.evaluateAction(Bird.Action.FLAP, 0);
+			int flap_pie 	= model.evaluateAction(Bird.Action.FLAP_AND_THROW_PIE, 0);
+			int pie 		= model.evaluateAction(Bird.Action.THROW_PIE, 0);
+			
+
+			// Find out which one is the best
+			int biggest = Math.max(Math.max(nothing, flap), Math.max(flap_pie, pie));
+			
+			System.out.println(nothing + " | " + flap + " | " + pie + " | " + flap_pie);
+			
+			if (biggest == nothing) {			// Least effort...
+				// don't do shit lol
+				//System.out.println("nothing won!");
+			} else if (biggest == flap) {
+				model.onClick();
+				//System.out.println("flap won!");
+			} else if (biggest == pie) {
+				model.onRightClick();
+				//System.out.println("pie won!");
+			} else { // (biggest == flap_pie)	// ...to most effort :3
+				model.onClick();
+				model.onRightClick();
+				//System.out.println("flap_pie won!");
+			}
+		} catch (IOException e) {}
+	}*/
+
+	public void mousePressed(MouseEvent e) {
+		if (e.getButton() == MouseEvent.BUTTON1) {			// Left click!
+			try {
+				model.onClick();
+			} catch (IOException e1) {
+				System.out.println("at Controller.java -> mousePressed, IOException");
+			}
+		} else if (e.getButton() == MouseEvent.BUTTON3) { 	// Right click!
+			try {
+				model.onRightClick();
+			} catch (IOException e1) {
+				System.out.println("at Controller.java -> mousePressed, IOException");
+			}
+		}
+	}
+
+	public void mouseReleased(MouseEvent e) {    }
+	public void mouseEntered(MouseEvent e) {    }
+	public void mouseExited(MouseEvent e) {    }
+	public void mouseClicked(MouseEvent e) {    }
+
+}

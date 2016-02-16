@@ -46,6 +46,7 @@ class Model
 			if (add_tube_count == 60) {
 				Tube new_tube = new Tube(500, RNG(100,300), RNG(0,1));
 				sprite_list.add(new_tube);
+				//System.out.println("For " + this + ": " + new_tube + " was added");
 				add_tube_count = 0;
 			}
 			
@@ -62,6 +63,8 @@ class Model
 			
 			if(current_sprite.is_dead) {
 				if (!current_sprite.equals(pigeon)) {				// EXCEPT FOR THE DEAD BIRD WHICH STAYS,
+					if (current_sprite.getClass().equals(Pie.class)) 
+						System.out.println(current_sprite + " is dead, about to remove");
 					if (sprite_list.remove(current_sprite)) break;	// delete sprites that are dead
 				}
 			}
@@ -76,8 +79,7 @@ class Model
 	
 	public void onRightClick() throws IOException {
 		if (!game_is_over) {
-			Pie new_pie = new Pie(pigeon.x, pigeon.y, sprite_list);
-			sprite_list.add(new_pie);
+			sprite_list.add(new Pie(pigeon.x, pigeon.y, sprite_list));
 		}
 	}
 	
