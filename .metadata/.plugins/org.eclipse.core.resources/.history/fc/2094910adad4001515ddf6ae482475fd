@@ -1,0 +1,40 @@
+import javax.swing.JFrame;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.awt.event.ActionEvent;
+import javax.swing.Timer;
+
+public class Game extends JFrame implements ActionListener {
+	Model model;
+	Controller controller;
+
+	public Game() throws Exception {
+		this.model = new Model();
+		controller = new Controller(this.model);
+		View view = new View(this.model);
+		view.addMouseListener(controller);
+		this.setTitle("!! Snappy Bird !!");
+		this.setSize(500, 500);
+		this.getContentPane().add(view);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setVisible(true);
+		new Timer(33, this).start(); // Indirectly calls actionPerformed at regular intervals
+	}
+
+	public void actionPerformed(ActionEvent evt) {
+		try {
+			// controller.update();
+
+			Model new_thing = model.clone();
+			new_thing.update();
+			this.model.update();
+		} catch (IOException e) {
+			System.out.println("at Game.java -> actionPerformed, IOException");
+		}
+		repaint(); // Indirectly calls View.paintComponent
+	}
+
+	public static void main(String[] args) throws Exception {
+		new Game();
+	}
+}

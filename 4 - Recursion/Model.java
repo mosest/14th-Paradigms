@@ -28,21 +28,25 @@ class Model
 		// Add a bird into the sprite list!
 		// It's the first thing added, so index 0
 		pigeon = new Bird(300,100,sprite_list);
+		System.out.println("pigeon is " + pigeon);
 		sprite_list.add(pigeon);	
 	}
 
-	public void update() throws IOException {
+	public void update() throws IOException {		
 		// If the game is over, then call game_over for every sprite
 		if (game_is_over) {
 			for (Sprite current_sprite : sprite_list) {
 				current_sprite.game_over();
 			}
 		} else {
+			
 			// Add another tube to the screen after 60 frames
 			add_tube_count++;
 			
 			if (add_tube_count == 60) {
-				sprite_list.add(new Tube(500, RNG(100,300), RNG(0,1)));
+				Tube new_tube = new Tube(500, RNG(100,300), RNG(0,1));
+				sprite_list.add(new_tube);
+				//System.out.println("For " + this + ": " + new_tube + " was added");
 				add_tube_count = 0;
 			}
 			
@@ -59,6 +63,8 @@ class Model
 			
 			if(current_sprite.is_dead) {
 				if (!current_sprite.equals(pigeon)) {				// EXCEPT FOR THE DEAD BIRD WHICH STAYS,
+					if (current_sprite.getClass().equals(Pie.class)) 
+						System.out.println(current_sprite + " is dead, about to remove");
 					if (sprite_list.remove(current_sprite)) break;	// delete sprites that are dead
 				}
 			}
@@ -92,10 +98,18 @@ class Model
 			// Create a new Model object!
 			Model new_model = new Model();
 			
+			// Set new_model's pigeon to this pigeon!
+			//System.out.println("Before: new_model's pigeon is " + new_model.pigeon);
+			new_model.pigeon = this.pigeon.clone();
+			//System.out.println("After: new_model's pigeon is " + new_model.pigeon);
+			
 			// Fill new_model's sprite_list in with copies of all the old sprites
+			// (except for pigeon, which was already done)
 			for (Sprite s : sprite_list) {
-				Sprite new_sprite = (Sprite)s.clone();
-				new_model.sprite_list.add(new_sprite);
+				if (!s.getClass().equals(Bird.class)) {
+					Sprite new_sprite = (Sprite)s.clone();
+					new_model.sprite_list.add(new_sprite);
+				}
 			}
 			
 			// For all the pies in new_model's sprite_list, 
@@ -110,9 +124,7 @@ class Model
 				}
 			}
 			
-			// Set new_model's bird to this one's bird,
-			// and set its sprite_list to this one's sprite_list
-			new_model.pigeon = this.pigeon.clone();
+			// Set new_model's bird's sprite_list to this one's sprite_list
 			new_model.pigeon.sprites = new_model.sprite_list;
 			
 			// Create a new Random object! One that is the same as
