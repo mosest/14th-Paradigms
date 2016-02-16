@@ -117,7 +117,7 @@ class Model
 			
 			// Create a new Random object! One that is the same as
 			// the current Random object :3
-			new_model.rng = new Random(rng);
+			new_model.rng = null;
 			
 			// Set new_model's other variables to this one's
 			new_model.add_tube_count = this.add_tube_count;

@@ -98,30 +98,10 @@ class Model
 				new_model.sprite_list.add(new_sprite);
 			}
 			
-			// For all the pies in new_model's sprite_list, 
-			// let's give them all new_model's sprite_list! 
-			// 
-			// I hope this is smart. I bet I can figure out how 
-			// this is less efficient than some other way. :/
-			for (Sprite s : new_model.sprite_list) {
-				if (s.getClass().equals(Pie.class)) {
-					Pie current_pie = (Pie)s;
-					current_pie.sprites = new_model.sprite_list;
-				}
-			}
-			
 			// Set new_model's bird to this one's bird,
 			// and set its sprite_list to this one's sprite_list
-			new_model.pigeon = this.pigeon.clone();
-			new_model.pigeon.sprites = new_model.sprite_list;
-			
-			// Create a new Random object! One that is the same as
-			// the current Random object :3
-			new_model.rng = new Random(rng);
-			
-			// Set new_model's other variables to this one's
-			new_model.add_tube_count = this.add_tube_count;
-			new_model.game_is_over = this.game_is_over;
+			new_model.pigeon = pigeon.clone();
+			new_model.pigeon.sprites = new_sprites;
 			
 			// Return new_model			
 			return new_model;

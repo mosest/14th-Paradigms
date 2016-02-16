@@ -133,9 +133,6 @@ class Bird extends Sprite {
 			new_bird.just_jumped = just_jumped;
 			new_bird.frame_count = frame_count;
 			
-			// In Model, new_sprites gets updated as new_model.sprite_list
-			// (which is a deep copy of model.sprite_list)
-			
 			// Return the new_bird
 			return new_bird;
 		} catch (IOException e) {}
