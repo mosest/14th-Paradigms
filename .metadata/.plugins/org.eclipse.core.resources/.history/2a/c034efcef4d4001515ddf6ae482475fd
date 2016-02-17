@@ -167,8 +167,6 @@ class Model
 				} else if (act == Bird.Action.THROW_PIE) {
 					new_model.onRightClick();
 					System.out.println(depth + ": " + new_model + "is throwin'");
-				} else {
-					System.out.println(depth + ": " + new_model + "is doin' nothin'");
 				}
 				
 				// Update the model! :D (the new_model, i think)

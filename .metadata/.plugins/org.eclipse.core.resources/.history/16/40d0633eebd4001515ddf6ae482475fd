@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 
 class Bird extends Sprite {
 	// Actions
-	public static enum Action {
+	public enum Action {
 		DO_NOTHING, FLAP, FLAP_AND_THROW_PIE, THROW_PIE
 	}
 	

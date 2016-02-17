@@ -154,7 +154,7 @@ class Model
 			try {
 				// Make a deep copy of Model
 				Model new_model = this.clone();
-				System.out.println("\n" + depth + ": clone at " + new_model);
+				System.out.println("\n" + depth + ": clone at " + new_model)
 				
 				// Perform act! PERFORM IT
 				if (act == Bird.Action.FLAP) {
@@ -167,8 +167,6 @@ class Model
 				} else if (act == Bird.Action.THROW_PIE) {
 					new_model.onRightClick();
 					System.out.println(depth + ": " + new_model + "is throwin'");
-				} else {
-					System.out.println(depth + ": " + new_model + "is doin' nothin'");
 				}
 				
 				// Update the model! :D (the new_model, i think)
@@ -187,7 +185,7 @@ class Model
 					
 					System.out.println(depth + ": calculating max for " + new_model);
 					int big = Math.max(Math.max(nothing, flap), Math.max(flap_pie, pie));
-					System.out.println(depth + ": returning max of " + nothing + " " + flap + " " + flap_pie + " " + pie);
+					System.out.println(depth + ": returning max = " + big);
 					return big;
 				}
 			} catch (IOException e) {}

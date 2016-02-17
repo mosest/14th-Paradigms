@@ -441,3 +441,12 @@ org.eclipse.team.core.TeamException: Could not instantiate provider org.eclipse.
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
 !SUBENTRY 1 org.eclipse.team.core 4 0 2016-02-16 09:30:40.565
 !MESSAGE Could not instantiate provider org.eclipse.egit.core.GitProvider for project 4 - Recursion.
+!SESSION 2016-02-16 21:06:03.408 -----------------------------------------------
+eclipse.buildId=I20110613-1736
+java.version=1.6.0_37
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=linux, ARCH=x86, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86
+
+!ENTRY org.eclipse.core.resources 2 10035 2016-02-16 21:06:04.522
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.

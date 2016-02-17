@@ -19,8 +19,6 @@ class Controller implements MouseListener
 			int flap_pie 	= model.evaluateAction(Bird.Action.FLAP_AND_THROW_PIE, 0);
 			int pie 		= model.evaluateAction(Bird.Action.THROW_PIE, 0);
 
-			System.out.println(nothing + " " + flap + " " + flap_pie + " " + pie);
-			
 			// Find out which one is the best
 			int biggest = Math.max(Math.max(nothing, flap), Math.max(flap_pie, pie));
 			

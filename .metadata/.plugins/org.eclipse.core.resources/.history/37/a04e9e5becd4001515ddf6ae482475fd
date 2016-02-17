@@ -23,7 +23,7 @@ public class Game extends JFrame implements ActionListener {
 
 	public void actionPerformed(ActionEvent evt) {
 		try {
-			controller.update();
+			// controller.update();
 			this.model.update();
 		} catch (IOException e) {
 			System.out.println("at Game.java -> actionPerformed, IOException");
