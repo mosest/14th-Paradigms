@@ -5,7 +5,7 @@ class Model
 {
 	// Sprite stuff!
 	LinkedList<Sprite> sprite_list;
-	int add_tube_count = 0;
+	int add_tube_count = 50;
 	
 	// Player's bird
 	Bird pigeon;
@@ -21,8 +21,8 @@ class Model
 		// Initialize sprite_list and the random num generator
 		this.sprite_list = new LinkedList<Sprite>();
 		this.rng = new Random(seed);
-		this.recursion_cutoff = 10;
-		this.k = 5;
+		this.recursion_cutoff = 20;
+		this.k = 10;
 		this.game_is_over = false;
 		
 		// Add a bird into the sprite list!
@@ -46,6 +46,7 @@ class Model
 			if (add_tube_count == 60) {
 				Tube new_tube = new Tube(500, RNG(100,300), RNG(0,1));
 				sprite_list.add(new_tube);
+				//System.out.println("tube " + this.tube_total++ + " added (" + new_tube.facing_up + ", " + new_tube.y + ")");
 				add_tube_count = 0;
 			}
 			
@@ -58,12 +59,13 @@ class Model
 		// the sprites will all be dead :D)
 		for (Sprite current_sprite : sprite_list) {
 			// Still update everything
-			current_sprite.update();	
+			current_sprite.update();
+	////////////if (current_sprite.getClass().equals(Bird.class)) System.out.println("Bird updated!");
+	////////////if (current_sprite.equals(pigeon)) System.out.println("IT WAS PIGEON!");
 			
 			if(current_sprite.is_dead) {
-				if (!current_sprite.equals(pigeon)) {				// EXCEPT FOR THE DEAD BIRD WHICH STAYS,
+				if (!current_sprite.equals(pigeon)) 				// EXCEPT FOR THE DEAD BIRD WHICH STAYS,
 					if (sprite_list.remove(current_sprite)) break;	// delete sprites that are dead
-				}
 			}
 		}
 	}
@@ -96,10 +98,14 @@ class Model
 			// Create a new Model object!
 			Model new_model = new Model();
 			
-			// Set new_model's pigeon to this pigeon!
-			//System.out.println("Before: new_model's pigeon is " + new_model.pigeon);
+			// Get rid of whatever's already in new_model's sprite_list
+			new_model.sprite_list.clear();
+			
+			// Set new_model's pigeon to this pigeon! 
 			new_model.pigeon = this.pigeon.clone();
-			//System.out.println("After: new_model's pigeon is " + new_model.pigeon);
+			
+			// Add pigeon to sprite_list
+			new_model.sprite_list.add(new_model.pigeon);
 			
 			// Fill new_model's sprite_list in with copies of all the old sprites
 			// (except for pigeon, which was already done)
@@ -137,57 +143,61 @@ class Model
 	}
 	
 	public int evaluateAction(Bird.Action act, int depth) {
+		////////////System.out.println("\n" + this + ".evA(" + act + ", " + depth + ") -->");
+		
 		// Base case: basically if you get to a certain
 		// point without returning something, we do this:
 		
 		if (depth == recursion_cutoff) {
 			if (this.pigeon.is_dead) {
-				System.out.println("can't go deeper, pigeon's dead");
+		////////////System.out.println("can't go deeper, pigeon's dead" + "\n");
 				return 0;
 			}
 			else {
 				int num = 500 - (Math.abs(this.pigeon.y - 250));
-				System.out.println("can't go deeper, pigeon's alive! at " + num);
+		////////////System.out.println("can't go deeper, pigeon's alive! at " + num + "\n");
 				return num;			
 			}
 		} else {
 			try {
 				// Make a deep copy of Model
 				Model new_model = this.clone();
-				System.out.println("\n" + depth + ": clone at " + new_model);
+		////////////System.out.println(new_model + " is a clone of " + this);
 				
 				// Perform act! PERFORM IT
 				if (act == Bird.Action.FLAP) {
 					new_model.pigeon.flap();
-					System.out.println(depth + ": " + new_model + "is flappin'");
+			////////////System.out.println(depth + ": " + new_model + " is flappin'");
 				} else if (act == Bird.Action.FLAP_AND_THROW_PIE) {
 					new_model.pigeon.flap();
 					new_model.onRightClick();
-					System.out.println(depth + ": " + new_model + "is flappin and throwin'");
+			////////////System.out.println(depth + ": " + new_model + " is flappin and throwin'");
 				} else if (act == Bird.Action.THROW_PIE) {
 					new_model.onRightClick();
-					System.out.println(depth + ": " + new_model + "is throwin'");
+			////////////System.out.println(depth + ": " + new_model + " is throwin'");
 				} else {
-					System.out.println(depth + ": " + new_model + "is doin' nothin'");
+			////////////System.out.println(depth + ": " + new_model + " is doin' nothin'");
 				}
 				
 				// Update the model! :D (the new_model, i think)
+		////////////System.out.println("Pre:" + new_model + ".bird (" + new_model.pigeon.x + ", " + new_model.pigeon.y + ")");
 				new_model.update();
+		////////////System.out.println("Post:" + new_model + ".bird (" + new_model.pigeon.x + ", " + new_model.pigeon.y + ")");
 			
 				// Now check if depth % k == 0
 				if (depth % k != 0) {
-					System.out.println(depth + ": going around again (do nothing)");
-					return evaluateAction(Bird.Action.DO_NOTHING, depth + 1);
+			////////////System.out.println(depth + " % k != 0");
+					return new_model.evaluateAction(Bird.Action.DO_NOTHING, depth + 1);
 				} else {
-					System.out.println(depth + ": calculating nothing/flap/etc");
-					int nothing 	= evaluateAction(Bird.Action.DO_NOTHING, depth + 1);
-					int flap 		= evaluateAction(Bird.Action.FLAP, depth + 1);
-					int flap_pie 	= evaluateAction(Bird.Action.FLAP_AND_THROW_PIE, depth + 1);
-					int pie 		= evaluateAction(Bird.Action.THROW_PIE, depth + 1);
+			////////////System.out.println(depth + ": calculating nothing/flap/etc");
+					int nothing 	= new_model.evaluateAction(Bird.Action.DO_NOTHING, depth + 1);
+					int flap 		= new_model.evaluateAction(Bird.Action.FLAP, depth + 1);
+					int flap_pie 	= new_model.evaluateAction(Bird.Action.FLAP_AND_THROW_PIE, depth + 1);
+					int pie 		= new_model.evaluateAction(Bird.Action.THROW_PIE, depth + 1);
 					
-					System.out.println(depth + ": calculating max for " + new_model);
+			////////////System.out.println(depth + ": calculating max for " + new_model);
 					int big = Math.max(Math.max(nothing, flap), Math.max(flap_pie, pie));
-					System.out.println(depth + ": returning max of " + nothing + " " + flap + " " + flap_pie + " " + pie);
+			////////////System.out.println(depth + ": returning max of " + nothing + " " + flap + " " + flap_pie + " " + pie);
 					return big;
 				}
 			} catch (IOException e) {}
