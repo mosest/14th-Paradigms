@@ -1,0 +1,30 @@
+import java.awt.GridLayout;
+import javax.swing.*;
+
+class GUIDriver {
+	public static void main(String[] args) {
+		// Here's the frame itself!
+		JFrame newFrame = new JFrame("Frame Time");
+		newFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		// Let's set up the layout (Grid)
+		newFrame.setLayout(new GridLayout(1,3,5,5));
+		
+		// Here's the static text field!
+		// not here yet ;_;
+		
+		// Here's the button!
+		JButton button = new JButton("CLICK ME");
+		button.setSize(200,200);
+		newFrame.add(button);
+		
+		// Here's the JTextField!
+		JTextField textField = new JTextField("Yeah!");
+		textField.setSize(300,300);
+		newFrame.add(textField);
+		
+		// Let's show the frame now :^)
+		newFrame.pack();			// Make sure the frame fits the contents!
+		newFrame.setVisible(true);
+	}
+}
