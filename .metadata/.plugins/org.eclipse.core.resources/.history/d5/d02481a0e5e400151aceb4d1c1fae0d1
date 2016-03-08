@@ -1,0 +1,26 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.TreeSet;
+
+import javax.swing.JTextField;
+
+public class AutoCompleteField extends JTextField {
+	// Member variables!
+	TreeSet<String> lexicon;
+	
+	AutoCompleteField() throws FileNotFoundException {
+		// Call JTextField's constructor
+		super();
+		
+		// Fill in lexicon
+		lexicon = new TreeSet<String>();
+		Scanner s = new Scanner(new File("lexicon.txt"));
+		while (s.hasNextLine()) {
+			String word = s.nextLine();
+			lexicon.add(word);
+		}
+		
+		
+	}
+}
