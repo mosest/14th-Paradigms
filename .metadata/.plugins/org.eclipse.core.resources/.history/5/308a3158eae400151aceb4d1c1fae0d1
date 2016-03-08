@@ -30,13 +30,9 @@ class GUIDriver {
 		button.addActionListener(myEar);
 		
 		// Here's the JTextField!
-		
-		//JTextField textField = new JTextField("Yeah!");
+		JTextField textField = new JTextField("Yeah!");
 		//textField.setSize(50,50);
-		
-		AutoCompleteField lexField = new AutoCompleteField();
-		
-		newFrame.add(lexField);
+		newFrame.add(textField);
 		
 		// Step 3. MAKE SHIT VISIBLE ----------------------------------------
 		// Let's show the frame now :^)

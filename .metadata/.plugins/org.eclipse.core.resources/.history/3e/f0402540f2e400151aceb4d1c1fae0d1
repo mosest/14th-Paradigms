@@ -39,6 +39,7 @@ public class AutoCompleteField extends JTextField implements KeyListener {
 
 	public void keyReleased(KeyEvent k) {
 		if (k.getKeyChar() != 8) setText(suggestAWord(getText()));
+		//suggestAWord(getText());
 	}
 
 	// OKAY GASHLER I'LL USE YOUR FUCKIN METHOD
@@ -51,8 +52,10 @@ public class AutoCompleteField extends JTextField implements KeyListener {
 		
 		// Calculate the actual suggestion using lexicon
 		if (!lexicon.isEmpty()) suggestion = lexicon.higher(start);
+		else suggestion = ":(";
 		
 		// Report and return!
+		System.out.println("start = " + start + ", suggestion = " + suggestion);
 		return suggestion;
 	}
 }

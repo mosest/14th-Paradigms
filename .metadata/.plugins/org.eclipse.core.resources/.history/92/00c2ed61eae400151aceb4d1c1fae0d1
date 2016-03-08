@@ -34,7 +34,7 @@ class GUIDriver {
 		//JTextField textField = new JTextField("Yeah!");
 		//textField.setSize(50,50);
 		
-		AutoCompleteField lexField = new AutoCompleteField();
+		AutoCompleteField lexField = new AutoCorrectField();
 		
 		newFrame.add(lexField);
 		
