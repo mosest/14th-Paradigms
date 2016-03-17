@@ -1,0 +1,73 @@
+import java.net.*;
+import java.io.*;
+import java.util.Date;
+import java.awt.Desktop;
+import java.net.URI;
+
+class Main {
+	public static void main(String[] args) throws Exception {
+
+		// Listen for a connection from a client
+		ServerSocket serverSocket = new ServerSocket(1234);
+
+		if(Desktop.isDesktopSupported())
+			Desktop.getDesktop().browse(new URI("http://localhost:1234"));
+		else
+			System.out.println("Please direct your browser to http://localhost:1234.");
+		
+		while (true) {
+			Socket clientSocket = serverSocket.accept();
+			
+			// Figure out what to send now that we have a connection with the client!
+			System.out.println("Got a connection!");
+			PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+			BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+	
+			String payloadFirst = "<table><tr><td>"
+					+ "<b>Folders:</b>"
+					+ "<br><select id=\"folderList\" size=\"15\" style=\"width: 280px\" onchange=\"javascript:location.href=this.value;\">"
+					+ "<option value=\"birbs.html\">hullo</option>"
+					+ "<option value=\"index.html?cd=somefolder\">somefolder</option>"
+					+ "<option value=\"index.html?cd=anotherfolder\">anotherfolder</option>"
+					+ "<option value=\"index.html?cd=yetanotherone\">yetanotherfolder</option>";
+			String payloadSecond = "</select></td><td>"
+					+ "<b>Files:</b><br>"
+					+ "<select id=\"fileList\" size=\"15\" style=\"width: 280px\">";
+			String payloadThird = "<option value=\"somefile.txt\">somefile.txt</option>"
+					+ "<option value=\"anotherfile.jpeg\">anotherfile.jpeg</option>"
+					+ "</select></td></tr></table>";
+			
+			// Add all the folders to payloadFirst
+			/*while (there are still folders in this folder?? LOL IDK) {
+				payloadFirst += "<option value=\"--PATH--TO--FILE--\">--NAME--OF--FOLDER--</option>";
+			}*/
+			
+			// Add files to payloadSecond
+			/*while (there are still folders in this folder?? LOL IDK) {
+				payloadSecond += "<option value=\"--NAME--OF--FILE--\">--NAME--OF--FILE--</option>";
+			}*/
+			
+			// Make payload (= payloadFirst + payloadSecond + payloadThird)
+			String payload = payloadFirst + payloadSecond + payloadThird;
+	
+			// Receive the request from the client
+			String inputLine;
+			while ((inputLine = in.readLine()) != null) {
+				System.out.println("The client said: " + inputLine);
+				if(inputLine.length() < 2)
+					break;
+			}
+			
+			// Send HTTP headers
+			System.out.println("Sending a response...");
+			out.print("HTTP/1.1 200 OK\r\n");
+			out.print("Content-Type: text/html\r\n");
+			out.print("Content-Length: " + Integer.toString(payload.length()) + "\r\n");
+			out.print("Connection: close\r\n");
+			out.print("\r\n");
+	
+			// Send the payload
+			out.println(payload);
+		}
+	}
+}

@@ -3,6 +3,7 @@ import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 
@@ -27,6 +28,11 @@ class Bird extends Sprite {
 	
 	// Other
 	LinkedList<Sprite> sprites; // for collision detection
+	boolean is_a_clone;
+
+	// -----------------------------------------------------------------------------
+	// Constructors
+	// -----------------------------------------------------------------------------
 	
 	Bird(int x, int y, LinkedList<Sprite> s) throws IOException {
 		// Call super constructor
@@ -39,6 +45,7 @@ class Bird extends Sprite {
 		this.v_y = 10;
 		this.jump_power = -15;
 		this.sprites = s;
+		this.is_a_clone = false;
 
 		// Initialize bird images
 		bird_wingdown = ImageIO.read(new File("bird-wingdown.png"));
@@ -51,6 +58,36 @@ class Bird extends Sprite {
 		// Set current_action to do_nothing
 		this.current_action = Action.DO_NOTHING;
 	}
+	
+	Bird(Bird orig, Model copyModel) throws IOException {
+		
+		// Call super constructor
+		super(orig.x,orig.y);
+		
+		// Initialize variables!
+		this.width = orig.width;
+		this.height = orig.height;
+		this.x = orig.x;
+		this.v_y = orig.v_y;
+		this.jump_power = orig.jump_power;
+		this.sprites = copyModel.sprite_list;
+		this.is_a_clone = true;
+
+		// Initialize bird images
+		bird_wingdown = orig.bird_wingdown;
+		bird_wingup = orig.bird_wingup;
+		bird_dead = orig.bird_dead;
+		
+		// Set bird image
+		this.image = orig.image;
+		
+		// Set current_action to do_nothing
+		this.current_action = orig.current_action;
+	}
+
+	// -----------------------------------------------------------------------------
+	// Functions
+	// -----------------------------------------------------------------------------
 
 	public void update() {
 		// Simulate gravity (origin is in top-left of window!)
@@ -95,7 +132,11 @@ class Bird extends Sprite {
 	}
 	
 	public boolean collision_detection() {
-		for (Sprite current_sprite : sprites) {
+		Iterator<Sprite> iterator = sprites.iterator();
+		
+		while (iterator.hasNext()) {
+			Sprite current_sprite = iterator.next();
+			
 			if (current_sprite.getClass().equals(Tube.class)) {
 				Tube current_tube = (Tube)current_sprite;
 				if (current_tube.facing_up) {
@@ -118,32 +159,5 @@ class Bird extends Sprite {
 	
 	public void game_over() {
 		is_dead = true;
-	}
-	
-	public Bird clone() {
-		Bird new_bird;
-		try {
-			// Create a brand new bird object! Shiny.
-			LinkedList<Sprite> new_sprites = new LinkedList<Sprite>();
-			new_bird = new Bird(x,y,new_sprites);
-			
-			// Set variables of new_bird to the ones of this bird!
-			new_bird.v_y = v_y;
-			new_bird.image = image;
-			new_bird.just_jumped = just_jumped;
-			new_bird.frame_count = frame_count;
-			
-			// In Model, new_sprites gets updated as new_model.sprite_list
-			// (which is a deep copy of model.sprite_list)
-			// (( I REALLY WISH I COULD PUT ALL OF THE BIRD'S
-			//    COPY STUFF INSIDE OF BIRD..... >:( ........ ))
-			
-			// Return the new_bird
-			return new_bird;
-		} catch (IOException e) {}
-		
-		// If for some reason, an error happened
-		System.out.println("Error cloning bird :(");
-		return null;
 	}
 }

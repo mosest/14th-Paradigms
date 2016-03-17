@@ -1,5 +1,6 @@
 import javax.swing.JPanel;
 import java.awt.Graphics;
+import java.util.Iterator;
 
 class View extends JPanel {
 	Model model;
@@ -10,8 +11,9 @@ class View extends JPanel {
 
 	public void paintComponent(Graphics g) {
 		// Draw the sprites
-		for (Sprite current_sprite : this.model.sprite_list) {
-			current_sprite.draw(g);
+		Iterator<Sprite> iterator = this.model.sprite_list.iterator();
+		while (iterator.hasNext()) {
+			iterator.next().draw(g);
 		}
 	}
 }

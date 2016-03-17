@@ -2,6 +2,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
@@ -12,6 +13,11 @@ class Pie extends Sprite {
 	
 	// Other
 	LinkedList<Sprite> sprites; // for collision detection
+	boolean already_hit_something;
+
+	// -----------------------------------------------------------------------------
+	// Constructors
+	// -----------------------------------------------------------------------------
 	
 	Pie(int x, int y, LinkedList<Sprite> s) throws IOException {
 		// Call super constructor
@@ -29,6 +35,25 @@ class Pie extends Sprite {
 		image = pie_slice;
 	}
 	
+	Pie(Pie orig, Model copyModel) throws IOException {
+		super(orig.x,orig.y);
+		this.v_x = orig.v_x;
+		this.v_y = orig.v_y;
+		this.height = orig.height;
+		this.width = orig.width;
+		this.sprites = copyModel.sprite_list;
+		
+		// Initialize images!
+		this.pie_slice = orig.pie_slice;
+		
+		// Set pie image
+		image = orig.image;
+	}
+
+	// -----------------------------------------------------------------------------
+	// Functions
+	// -----------------------------------------------------------------------------
+	
 	public void draw(Graphics g) {
 		g.drawImage(image, x, y, null);
 	}
@@ -45,11 +70,15 @@ class Pie extends Sprite {
 		if (y > 500 + height) is_dead = true;
 				
 		// Collision detection
-		collision_detection();
+		if (!already_hit_something) collision_detection();
 	}
 	
 	public void collision_detection() {
-		for (Sprite current_sprite : sprites) {
+		Iterator<Sprite> iterator = sprites.iterator();
+		
+		while (iterator.hasNext()) {
+			Sprite current_sprite = iterator.next();
+			
 			if (current_sprite.getClass().equals(Tube.class)) {
 				
 				// Create a variable that iterates over each tube_sprite!
@@ -61,12 +90,14 @@ class Pie extends Sprite {
 						x < current_tube.x + current_tube.width && 	// pie's left edge is to the left of the tube's right edge
 						y + height > current_tube.y) { 				// pie's bottom edge is below the tube's entrance
 							current_tube.is_retracting = true;
+							this.is_dead = true;
 						}
 				} else {
 					if (x + width > current_tube.x &&				// same as top
 						x < current_tube.x + current_tube.width &&	// same as top
 						y < current_tube.y) {						// pie's top edge is above the tube's entrance
 							current_tube.is_retracting = true;
+							this.is_dead = true;
 						}
 				}
 			}
@@ -75,28 +106,5 @@ class Pie extends Sprite {
 	
 	public void game_over() {
 		is_dead = true;
-	}
-	
-	public Object clone() {
-		Pie new_pie;
-		try {
-			// Create a brand new bird object! Shiny.
-			LinkedList<Sprite> new_sprites = new LinkedList<Sprite>();
-			new_pie = new Pie(x,y,new_sprites);
-			
-			// Set variables of new_bird to the ones of this bird!
-			new_pie.v_y = v_y;
-			new_pie.image = image;
-			
-			// In Model, new_sprites gets updated as new_model.sprite_list
-			// (which is a deep copy of model.sprite_list)
-			
-			// Return the new_pie
-			return new_pie;
-		} catch (IOException e) {}
-		
-		// If for some reason, an error happened
-		System.out.println("Error cloning pie! :(");
-		return null;
 	}
 }

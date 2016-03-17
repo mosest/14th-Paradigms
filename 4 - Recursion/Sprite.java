@@ -36,6 +36,4 @@ abstract class Sprite {
 	public abstract void draw(Graphics g);
 	
 	public abstract void game_over();
-	
-	public abstract Object clone();
 }

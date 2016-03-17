@@ -11,34 +11,32 @@ class Controller implements MouseListener
 		this.model = m;
 	}
 	
-	public void update() {
-		try {
-			// Calculate how good each move is
-			int nothing 	= model.evaluateAction(Bird.Action.DO_NOTHING, 0);
-			int flap 		= model.evaluateAction(Bird.Action.FLAP, 0);
-			int flap_pie 	= model.evaluateAction(Bird.Action.FLAP_AND_THROW_PIE, 0);
-			int pie 		= model.evaluateAction(Bird.Action.THROW_PIE, 0);
+	public void update() throws IOException {
+		// Calculate how good each move is
+		int nothing 	= model.evaluateAction(Bird.Action.DO_NOTHING, 0);
+		int flap 		= model.evaluateAction(Bird.Action.FLAP, 0);
+		int flap_pie 	= model.evaluateAction(Bird.Action.FLAP_AND_THROW_PIE, 0);
+		int pie 		= model.evaluateAction(Bird.Action.THROW_PIE, 0);
 
-			//System.out.println(nothing + " " + flap + " " + flap_pie + " " + pie);
-			
-			// Find out which one is the best
-			int biggest = Math.max(Math.max(nothing, flap), Math.max(flap_pie, pie));
-			
-			if (biggest == nothing) {			// Least effort...
-				// don't do shit lol
-				//System.out.println("nothing won!");
-			} else if (biggest == flap) {
-				model.onClick();
-				//System.out.println("flap won!");
-			} else if (biggest == pie) {
-				model.onRightClick();
-				//System.out.println("pie won!");
-			} else { // (biggest == flap_pie)	// ...to most effort :3
-				model.onClick();
-				model.onRightClick();
-				//System.out.println("flap_pie won!");
-			}
-		} catch (IOException e) {}
+		System.out.println(nothing + " " + flap + " " + flap_pie + " " + pie);
+		
+		// Find out which one is the best
+		int biggest = Math.max(Math.max(nothing, flap), Math.max(flap_pie, pie));
+		
+		if (biggest == nothing) {			// Least effort...
+			// don't do shit lol
+			//System.out.println("nothing won!");
+		} else if (biggest == flap) {
+			model.onClick();
+			System.out.println("flap won!");
+		} else if (biggest == pie) {
+			model.onRightClick();
+			System.out.println("pie won!");
+		} else { // (biggest == flap_pie)	// ...to most effort :3
+			model.onClick();
+			model.onRightClick();
+			System.out.println("flap_pie won!");
+		}
 	}
 
 	public void mousePressed(MouseEvent e) {

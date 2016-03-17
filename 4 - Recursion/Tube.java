@@ -14,10 +14,15 @@ class Tube extends Sprite {
 	boolean is_retracting;
 	Image tube_facingdown = null;
 	Image tube_facingup = null;
+
+	// -----------------------------------------------------------------------------
+	// Constructors
+	// -----------------------------------------------------------------------------
 	
 	Tube(int x, int y, int random1) throws IOException {
 		// Call super constructor
 		super(x,y);
+		if (random1 == 0) this.y = 500 - this.y;
 		
 		// Initialize variables!
 		this.v_x = 3;
@@ -39,6 +44,29 @@ class Tube extends Sprite {
 		else this.image = tube_facingdown;	
 	}
 	
+	Tube(Tube orig) throws IOException {
+		// Call super constructor
+		super(orig.x,orig.y);
+		
+		// Initialize variables!
+		this.v_x = orig.v_x;
+		this.width = orig.width;
+		this.facing_up = orig.facing_up;
+		this.is_retracting = orig.is_retracting;
+		this.retraction_speed = orig.retraction_speed;
+
+		// Initialize tube images
+		tube_facingdown = orig.tube_facingdown;
+		tube_facingup = orig.tube_facingup;
+		
+		// Set tube image
+		this.image = orig.image;
+	}
+
+	// -----------------------------------------------------------------------------
+	// Functions
+	// -----------------------------------------------------------------------------
+	
 	public void update() {
 		// Move tube a little to the left
 		x -= v_x;
@@ -50,7 +78,7 @@ class Tube extends Sprite {
 		}
 		
 		// If tube goes off-screen, it's functionally dead
-		if (x < (-1 * width)) is_dead = true; // if tube goes to left too far		
+		if (x < (-1 * (width + 10))) is_dead = true; // if tube goes to left too far		
 		if (y < 0 || y > 500) is_dead = true; // if tube retracts too far
 	}
 	
@@ -61,21 +89,5 @@ class Tube extends Sprite {
 	
 	public void game_over() {
 		is_dead = true;
-	}
-	
-	public Tube clone() {
-		try {
-			// Create new tube
-			int up_or_down = (facing_up ? 0 : 1);
-			Tube new_tube = new Tube(x,y,up_or_down);
-			
-			// Set variables of new_tube to match this one!
-			new_tube.is_retracting = is_retracting;
-			new_tube.image = image;
-			
-			// Return!
-			return new_tube;
-		} catch (IOException e) {}
-		return null;
 	}
 }

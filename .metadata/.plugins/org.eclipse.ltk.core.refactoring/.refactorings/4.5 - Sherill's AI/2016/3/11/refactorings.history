@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete 7 elements from project &apos;4.5 - Sherill&apos;s AI&apos;&#x0D;&#x0A;- Original project: &apos;4.5 - Sherill&apos;s AI&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     bird-dead.png&#x0D;&#x0A;     bird-wingdown.png&#x0D;&#x0A;     bird-wingup.png&#x0D;&#x0A;     pie.png&#x0D;&#x0A;     src.zip&#x0D;&#x0A;     tubedown.png&#x0D;&#x0A;     tubeup.png" description="Delete elements" element1="tubeup.png" element2="pie.png" element3="src.zip" element4="bird-wingdown.png" element5="bird-dead.png" element6="bird-wingup.png" element7="tubedown.png" elements="0" flags="589830" id="org.eclipse.jdt.ui.delete" resources="7" stamp="1457582404971" subPackages="false" version="1.0"/>
+</session>

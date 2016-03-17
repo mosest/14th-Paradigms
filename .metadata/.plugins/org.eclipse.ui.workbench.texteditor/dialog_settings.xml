@@ -8,15 +8,17 @@
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="over"/>
+			<item value="Game over"/>
+			<item value="collision"/>
+			<item value="new_model"/>
 			<item value="pigeon."/>
 			<item value="current_tube"/>
 			<item value="tube_list"/>
 			<item value="bird_"/>
-			<item value="tube_"/>
-			<item value="turtle"/>
-			<item value="bird_speed"/>
 		</list>
 		<list key="replacehistory">
+			<item value="this"/>
 			<item value=""/>
 			<item value="current_sprite"/>
 			<item value="sprite_list"/>
