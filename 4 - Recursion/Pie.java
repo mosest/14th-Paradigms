@@ -9,11 +9,12 @@ import javax.imageio.ImageIO;
 
 class Pie extends Sprite {
 	// Image variables
-	Image pie_slice = null;
+	static Image pie_slice = null;
 	
 	// Other
 	LinkedList<Sprite> sprites; // for collision detection
 	boolean already_hit_something;
+	boolean is_a_copy;
 
 	// -----------------------------------------------------------------------------
 	// Constructors
@@ -27,9 +28,10 @@ class Pie extends Sprite {
 		this.height = 28;
 		this.width = 40;
 		this.sprites = s;
+		this.is_a_copy = false;
 		
 		// Initialize images!
-		this.pie_slice = ImageIO.read(new File("pie.png"));
+		if (pie_slice == null) pie_slice = ImageIO.read(new File("pie.png"));
 		
 		// Set pie image
 		image = pie_slice;
@@ -42,9 +44,8 @@ class Pie extends Sprite {
 		this.height = orig.height;
 		this.width = orig.width;
 		this.sprites = copyModel.sprite_list;
-		
-		// Initialize images!
-		this.pie_slice = orig.pie_slice;
+		this.is_dead = orig.is_dead;
+		this.is_a_copy = true;
 		
 		// Set pie image
 		image = orig.image;
@@ -75,7 +76,7 @@ class Pie extends Sprite {
 	
 	public void collision_detection() {
 		Iterator<Sprite> iterator = sprites.iterator();
-		
+
 		while (iterator.hasNext()) {
 			Sprite current_sprite = iterator.next();
 			
@@ -90,6 +91,7 @@ class Pie extends Sprite {
 						x < current_tube.x + current_tube.width && 	// pie's left edge is to the left of the tube's right edge
 						y + height > current_tube.y) { 				// pie's bottom edge is below the tube's entrance
 							current_tube.is_retracting = true;
+							//System.out.println(this + " ^hit^ something! " + current_tube + " is retracting!");
 							this.is_dead = true;
 						}
 				} else {
@@ -97,6 +99,7 @@ class Pie extends Sprite {
 						x < current_tube.x + current_tube.width &&	// same as top
 						y < current_tube.y) {						// pie's top edge is above the tube's entrance
 							current_tube.is_retracting = true;
+							//System.out.println(this + " vhitv something! " + current_tube + " is retracting!");
 							this.is_dead = true;
 						}
 				}

@@ -1,6 +1,6 @@
 import java.awt.event.MouseListener;
 import java.io.IOException;
-
+import java.util.LinkedList;
 import java.awt.event.MouseEvent;
 
 class Controller implements MouseListener

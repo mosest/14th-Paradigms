@@ -1,3 +1,4 @@
+import java.awt.Image;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -15,11 +16,15 @@ class Model
 	// Player's bird
 	Bird pigeon;
 	
+	// Counts!
+	int numPies = 0;
+	int numTubes = 0;
+	
 	// Other
 	Random rng;
-	long seed = 70;
-	int recursion_cutoff;
-	int k;
+	long seed = 34;
+	static int recursion_cutoff = 20;
+	static int k = 5;
 	boolean is_a_copy;
 	boolean game_is_over; // Model should handle whether the actual game is over, right??
 
@@ -31,8 +36,6 @@ class Model
 		// Initialize sprite_list and the random num generator
 		this.sprite_list = new LinkedList<Sprite>();
 		this.rng = new Random(seed);
-		this.recursion_cutoff = 20;
-		this.k = 5;
 		this.game_is_over = false;
 		
 		// Add a bird into the sprite list!
@@ -47,10 +50,9 @@ class Model
 		// Initialize sprite_list and the random num generator
 		this.sprite_list = new LinkedList<Sprite>();
 		this.rng = new Random(orig.rng);
-		this.recursion_cutoff = orig.recursion_cutoff;
-		this.k = orig.k;
 		this.game_is_over = orig.game_is_over;
 		this.is_a_copy = true;
+		this.add_tube_count = orig.add_tube_count;
 		
 		// Add bird into sprite list!
 		this.pigeon = new Bird(orig.pigeon,this);
@@ -96,6 +98,7 @@ class Model
 				Tube new_tube = new Tube(500, RNG(100,250), RNG(0,1));
 				sprite_list.add(new_tube);
 				//System.out.println("tube " + this.tube_total++ + " added (" + new_tube.facing_up + ", " + new_tube.y + ")");
+				
 				add_tube_count = 0;
 			}
 			
@@ -126,16 +129,15 @@ class Model
 	}
 	
 	public void onClick() throws IOException {
-		if (!game_is_over) {
-			//System.out.println(pigeon + " jumped!");
+		if (!this.game_is_over) {
 			pigeon.flap();
 		}
 	}
 	
 	public void onRightClick() throws IOException {
-		if (!game_is_over) {
-			Pie new_pie = new Pie(pigeon.x, pigeon.y, sprite_list);
-			sprite_list.add(new_pie);
+		if (!this.game_is_over) {
+			Pie new_pie = new Pie(this.pigeon.x, this.pigeon.y, this.sprite_list);
+			this.sprite_list.add(new_pie);
 		}
 	}
 	
@@ -158,7 +160,7 @@ class Model
 		
 		if (depth == recursion_cutoff) {
 			if (this.pigeon.is_dead) {
-				System.out.println("A cloned bird saw the future, and in it, its own death.");
+				//System.out.println("A cloned bird saw the future, and in it, its own death.");
 				return 0;
 			}
 			else {
@@ -169,21 +171,20 @@ class Model
 			try {
 				// Make a deep copy of Model
 				Model new_model = new Model(this);
-		////////////System.out.println(new_model + " is a clone of " + this);
 				
 				// Perform act! PERFORM IT
 				if (act == Bird.Action.FLAP) {
-					new_model.pigeon.flap();
-			////////////System.out.println(depth + ": " + new_model + " is flappin'");
+					new_model.onClick();
+					//System.out.println(depth + ": " + new_model + " is flappin'");
 				} else if (act == Bird.Action.FLAP_AND_THROW_PIE) {
-					new_model.pigeon.flap();
+					new_model.onClick();
 					new_model.onRightClick();
-			////////////System.out.println(depth + ": " + new_model + " is flappin and throwin'");
+					//System.out.println(depth + ": " + new_model + " is flappin and throwin'");
 				} else if (act == Bird.Action.THROW_PIE) {
 					new_model.onRightClick();
-			////////////System.out.println(depth + ": " + new_model + " is throwin'");
+					//System.out.println(depth + ": " + new_model + " is throwin'");
 				} else {
-			////////////System.out.println(depth + ": " + new_model + " is doin' nothin'");
+					//System.out.println(depth + ": " + new_model + " is doin' nothin'");
 				}
 				
 				// Update the model! :D (the new_model, i think)
@@ -197,6 +198,9 @@ class Model
 					int flap 		= new_model.evaluateAction(Bird.Action.FLAP, depth + 1);
 					int flap_pie 	= new_model.evaluateAction(Bird.Action.FLAP_AND_THROW_PIE, depth + 1);
 					int pie 		= new_model.evaluateAction(Bird.Action.THROW_PIE, depth + 1);
+					
+					// Print out!!
+					//System.out.println(depth + ": " + nothing + " " + flap + " " + flap_pie + " " + pie);
 					
 					int big = Math.max(Math.max(nothing, flap), Math.max(flap_pie, pie));
 					return big;

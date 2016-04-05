@@ -12,8 +12,8 @@ class Tube extends Sprite {
 	// Image stuff
 	boolean facing_up;
 	boolean is_retracting;
-	Image tube_facingdown = null;
-	Image tube_facingup = null;
+	static Image tube_facingdown = null;
+	static Image tube_facingup = null;
 
 	// -----------------------------------------------------------------------------
 	// Constructors
@@ -32,8 +32,8 @@ class Tube extends Sprite {
 		this.retraction_speed = 10;
 
 		// Initialize tube images
-		tube_facingdown = ImageIO.read(new File("tubedown.png"));
-		tube_facingup = ImageIO.read(new File("tubeup.png"));
+		if (tube_facingdown == null) tube_facingdown = ImageIO.read(new File("tubedown.png"));
+		if (tube_facingup == null) tube_facingup = ImageIO.read(new File("tubeup.png"));
 		
 		// Randomly decide whether the tube faces up or down
 		if (random1 == 0) facing_up = true;
@@ -54,10 +54,7 @@ class Tube extends Sprite {
 		this.facing_up = orig.facing_up;
 		this.is_retracting = orig.is_retracting;
 		this.retraction_speed = orig.retraction_speed;
-
-		// Initialize tube images
-		tube_facingdown = orig.tube_facingdown;
-		tube_facingup = orig.tube_facingup;
+		this.is_dead = orig.is_dead;
 		
 		// Set tube image
 		this.image = orig.image;
@@ -79,7 +76,7 @@ class Tube extends Sprite {
 		
 		// If tube goes off-screen, it's functionally dead
 		if (x < (-1 * (width + 10))) is_dead = true; // if tube goes to left too far		
-		if (y < 0 || y > 500) is_dead = true; // if tube retracts too far
+		if (this.y < 0 || this.y > 500) this.is_dead = true; // if tube retracts too far
 	}
 	
 	public void draw(Graphics g) {

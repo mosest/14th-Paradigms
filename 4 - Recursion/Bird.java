@@ -19,12 +19,11 @@ class Bird extends Sprite {
 	float jump_power;
 	
 	// Image stuff (wingup + wingdown)
-	Image image;
 	int frame_count = 0;
 	boolean just_jumped = false;
-	Image bird_wingdown = null;
-	Image bird_wingup = null;
-	Image bird_dead = null;
+	static Image bird_wingdown = null;
+	static Image bird_wingup = null;
+	static Image bird_dead = null;
 	
 	// Other
 	LinkedList<Sprite> sprites; // for collision detection
@@ -48,9 +47,9 @@ class Bird extends Sprite {
 		this.is_a_clone = false;
 
 		// Initialize bird images
-		bird_wingdown = ImageIO.read(new File("bird-wingdown.png"));
-		bird_wingup = ImageIO.read(new File("bird-wingup.png"));
-		bird_dead = ImageIO.read(new File("bird-dead.png"));
+		if (bird_wingdown == null) bird_wingdown = ImageIO.read(new File("bird-wingdown.png"));
+		if (bird_wingup == null) bird_wingup = ImageIO.read(new File("bird-wingup.png"));
+		if (bird_dead == null) bird_dead = ImageIO.read(new File("bird-dead.png"));
 		
 		// Set bird image
 		this.image = bird_wingdown;
@@ -72,16 +71,12 @@ class Bird extends Sprite {
 		this.jump_power = orig.jump_power;
 		this.sprites = copyModel.sprite_list;
 		this.is_a_clone = true;
-
-		// Initialize bird images
-		bird_wingdown = orig.bird_wingdown;
-		bird_wingup = orig.bird_wingup;
-		bird_dead = orig.bird_dead;
+		this.is_dead = orig.is_dead;
 		
 		// Set bird image
 		this.image = orig.image;
 		
-		// Set current_action to do_nothing
+		// Set current_action
 		this.current_action = orig.current_action;
 	}
 
@@ -140,13 +135,15 @@ class Bird extends Sprite {
 			if (current_sprite.getClass().equals(Tube.class)) {
 				Tube current_tube = (Tube)current_sprite;
 				if (current_tube.facing_up) {
-					if (x + width > current_tube.x && 				// bird's right edge is to the right of the tube's left edge
+					if (!this.is_dead &&
+						x + width > current_tube.x && 				// bird's right edge is to the right of the tube's left edge
 						x < current_tube.x + current_tube.width && 	// bird's left edge is to the left of the tube's right edge
 						y + height > current_tube.y) { 				// bird's bottom edge is below the tube's entrance
 							return true;
 						}
 				} else {
-					if (x + width > current_tube.x &&				// same as top
+					if (!this.is_dead &&
+						x + width > current_tube.x &&				// same as top
 						x < current_tube.x + current_tube.width &&	// same as top
 						y < current_tube.y) {						// bird's top edge is above the tube's entrance
 							return true;

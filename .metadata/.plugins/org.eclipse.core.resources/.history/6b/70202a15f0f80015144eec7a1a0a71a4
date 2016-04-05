@@ -1,0 +1,91 @@
+import java.net.*;
+import java.io.*;
+import java.util.Date;
+import java.awt.Desktop;
+import java.net.URI;
+
+class Main {
+	public static String getPayload() {
+		String returnThis =   "<html><head>"
+							+ "<script type=\"text/javascript\">"
+							
+							+ "function httpPost(url, payload, callback) {"
+								+ "var request = new XMLHttpRequest();"
+								+ "request.onreadystatechange = function() {"
+									+ "if(request.readyState == 4) {"
+										+ "if(request.status == 200)"
+											+ "callback(request.responseText);"
+										+ "else {"
+											+ "if(request.status == 0 && request.statusText.length == 0)"
+												+ "alert(\"Request blocked by same-origin policy\");"
+											+ "else"
+												+ "alert(\"Server returned status \" + request.status + \", \" + request.statusText);"
+			      						+ "}"
+			    					+ "}"
+								+ "}"
+			    					
+								+ "request.open('post', url, true);"
+								+ "request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');"
+								+ "request.send(payload);"
+							+ "}"
+			
+							+ "function cb(response) {"
+								+ "alert(\"The back-end server replied: \" + response);"
+							+ "}"
+			
+							+ "function sayhi() {"
+								+ "var msg = document.getElementById(\"mymessage\");"
+								+ "httpPost(\"backend.php\", msg.value, cb);"
+							+ "}"
+			
+						+ "</script>"
+						
+						+ "</head><body>"
+							+ "<input type=\"text\" id=\"mymessage\" value=\"hi\">"
+							+ "<input type=\"button\" onclick=\"sayhi();\" value=\"send\">"
+						+ "</body></html>";
+		
+		return returnThis;
+	}
+	
+	public static void main(String[] args) throws Exception {
+
+		// Listen for a connection from a client
+		ServerSocket serverSocket = new ServerSocket(1234);
+		if(Desktop.isDesktopSupported())
+			Desktop.getDesktop().browse(new URI("http://localhost:1234"));
+		else
+			System.out.println("Please direct your browser to http://localhost:1234.");
+		
+		while (true) {
+			Socket clientSocket = serverSocket.accept();
+			System.out.println("Got a connection!");
+			PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+			BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			String dateString = (new Date()).toGMTString();
+			String payloadJava =  getPayload();
+	
+			// Receive the request from the client
+			String inputLine;
+			while ((inputLine = in.readLine()) != null) {
+				System.out.println("The client said: " + inputLine);
+				if(inputLine.length() < 2)
+					break;
+			}
+	
+			// Send HTTP headers
+			System.out.println("Sending a response...");
+			out.print("HTTP/1.1 200 OK\r\n");
+			out.print("Content-Type: text/html\r\n");
+			out.print("Content-Length: " + Integer.toString(payloadJava.length()) + "\r\n");
+			out.print("Date: " + dateString + "\r\n");
+			out.print("Last-Modified: " + dateString + "\r\n");
+			out.print("Connection: close\r\n");
+			out.print("\r\n");
+	
+			// Send the payload
+			out.println(payloadJava);
+		}
+		System.out.println("Done.");
+	}
+}
