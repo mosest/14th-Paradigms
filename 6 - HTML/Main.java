@@ -10,7 +10,7 @@ class Main {
 	// 
 	// Constructs payload using the path to the parent file!
 	// 1. If there's no file sent, then we have the two boxes of files and folders.
-	// 2. If there is a file sent, then we just show a box with the file and a
+	// 2. If there is af ile sent, then we just show a box with the file and a
 	//	  button to go back to the file navigation two-box thing!
 	// -------------------------------------------------------------------------------
 	
@@ -115,7 +115,7 @@ class Main {
 	
 	public static void main(String[] args) throws Exception {
 		// Set a path to start out with!
-		String path = "./src";
+		String path = "./Assignment6Folders";
 		
 		// Listen for a connection from a client
 		ServerSocket serverSocket = new ServerSocket(1237);
